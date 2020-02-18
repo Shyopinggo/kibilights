@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Http;
 using KibiLights.Models;
 
 namespace KibiLights.Controllers
@@ -30,9 +32,10 @@ namespace KibiLights.Controllers
         }
 
         [HttpPost]
-        public IActionResult SetLanguage()
+        public IActionResult SetLanguage(string language, string returnUrl)
         {
-            return Content(CultureInfo.CurrentCulture.Name);
+            Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName, CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(language)), new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) });
+            return LocalRedirect(returnUrl);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

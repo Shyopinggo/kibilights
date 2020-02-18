@@ -26,7 +26,7 @@
                         </li>
                     </ul>
                 </div>
-                <form asp-action="SetLanguage" asp-controller="Home">
+                <form asp-action="SetLanguage" asp-controller="Home" asp-route-returnUrl="@Context.Request.Path" method="post">
                     <input type="submit" name="language" value="en" class="btn btn-sm"/>
                     <input type="submit" name="language" value="et" class="btn btn-sm"/>
                     <input type="submit" name="language" value="ru" class="btn btn-sm"/>
