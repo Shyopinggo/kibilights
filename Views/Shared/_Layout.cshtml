@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="@System.Globalization.CultureInfo.CurrentCulture.Name">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -26,6 +26,11 @@
                         </li>
                     </ul>
                 </div>
+                <form asp-action="SetLanguage" asp-controller="Home">
+                    <input type="submit" name="language" value="en" class="btn btn-sm"/>
+                    <input type="submit" name="language" value="et" class="btn btn-sm"/>
+                    <input type="submit" name="language" value="ru" class="btn btn-sm"/>
+                </form>
             </div>
         </nav>
     </header>

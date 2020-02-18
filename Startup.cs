@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Globalization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Localization;
 
 using KibiLights.Models;
 
@@ -27,7 +29,8 @@ namespace KibiLights
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+            services.AddControllersWithViews().AddDataAnnotationsLocalization().AddViewLocalization();
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ApplicationContext>(options => options.UseMySql(connectionString));
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -41,7 +44,7 @@ namespace KibiLights
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseForwardedHeaders(new ForwardedHeadersOptions { ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto });
-            
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -50,6 +53,19 @@ namespace KibiLights
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            var languages = new[]
+                {
+                new CultureInfo("en"),
+                new CultureInfo("et"),
+                new CultureInfo("ru")
+            };
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("en"),
+                SupportedCultures = languages,
+                SupportedUICultures = languages
+            });
             app.UseStaticFiles();
 
             app.UseRouting();

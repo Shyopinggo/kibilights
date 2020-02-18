@@ -10,6 +10,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Localization;
 
 using KibiLights.Models;
 using KibiLights.ViewModels;
@@ -19,10 +20,12 @@ namespace KibiLights.Controllers
     public class AccountController : Controller
     {
         private ApplicationContext context;
+        private readonly IStringLocalizer<AccountController> localizer;
 
-        public AccountController(ApplicationContext context)
+        public AccountController(ApplicationContext context, IStringLocalizer<AccountController> localizer)
         {
             this.context = context;
+            this.localizer = localizer;
         }
 
         [Authorize(Roles = "Admin, User")]
@@ -44,7 +47,7 @@ namespace KibiLights.Controllers
         {
             User user = null;
             user = await context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
-            if (user != null) ModelState.AddModelError("", "This user already exists");
+            if (user != null) ModelState.AddModelError("", localizer["UserExists"]);
             if (ModelState.IsValid)
             {
                 Role role = await context.Roles.FirstOrDefaultAsync(r => r.Name == "User");
@@ -74,13 +77,14 @@ namespace KibiLights.Controllers
             var user = await context.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == HashPassword(model.Password));
             if (user == null)
             {
-                ModelState.AddModelError("", "Wrong e-mail or password");
+                ModelState.AddModelError("", localizer["WrongPassword"]);
                 return View();
             }
             await Authenticate(user.Email, user.Role.Name);
             return RedirectToAction("Index", "Home");
         }
 
+        [Authorize]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
