@@ -1,0 +1,51 @@
+﻿@using KibiLights.Models.Lighthouse
+@{
+    Facility facility = (Facility)ViewData["Facility"];
+    ViewData["Title"] = facility.Name;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@facility.Name</h1>
+
+<h2>Beacons</h2>
+
+<table class="table">
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Action</th>
+    </tr>
+    @foreach (Beacon b in (List<Beacon>)ViewData["Beacons"])
+    {
+<tr>
+    <td>@b.Id</td>
+    <td>@b.Name</td>
+    <td><a href="~/Admin/Lighthouse/DeleteBeacon?id=@b.Id&facilityId=@facility.Id">Delete</a></td>
+</tr>
+    }
+</table>
+
+<h3>Add beacon</h3>
+<form method="post" asp-area="Admin" asp-action="AddBeacon" asp-controller="Lighthouse">
+    <input type="hidden" name="facilityId" value="@facility.Id" />
+    <label>Name: </label>
+    <input type="text" name="name" />
+    <input type="submit" value="Add" />
+</form>
+
+<h2>Routes</h2>
+<table class="table">
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Action</th>
+    </tr>
+    @foreach (Route b in (List<Route>)ViewData["Routes"])
+    {
+        <tr>
+            <td>@b.Id</td>
+            <td>@b.Name</td>
+            <td><a href="~/Admin/Lighthouse/DeleteBeacon?id=@b.Id">Delete</a></td>
+        </tr>
+    }
+</table>

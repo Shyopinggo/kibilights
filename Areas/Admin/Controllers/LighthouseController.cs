@@ -60,5 +60,34 @@ namespace KibiLights.Areas.Admin.Controllers
             }
             return Content("Facility id was null");
         }
+
+        public IActionResult Facility(int id)
+        {
+            var facility = context.Facilities.FirstOrDefault(f => f.Id == id);
+            if (facility == null) return BadRequest();
+            ViewData["Facility"] = facility;
+            ViewData["Beacons"] = context.Beacons.Where(b => b.Facility == facility).ToList();
+            ViewData["Routes"] = context.Routes.Where(r => r.Facility == facility).ToList();
+            return View();
+        }
+
+        public IActionResult AddBeacon(string name, int facilityId)
+        {
+            var facility = context.Facilities.FirstOrDefault(f => f.Id == facilityId);
+            if (string.IsNullOrEmpty(name) || facility == null) return BadRequest("Empty name or wrong facility id");
+            var beacon = new Beacon { Name = name, Facility = facility};
+            context.Beacons.Add(beacon);
+            context.SaveChanges();
+            return RedirectToAction("Facility", new { id = facilityId});
+        }
+
+        public IActionResult DeleteBeacon(int id, int facilityId)
+        {
+            var beacon = context.Beacons.FirstOrDefault(b => b.Id == id);
+            if (beacon == null) return BadRequest("Wrong beacon id");
+            context.Beacons.Remove(beacon);
+            context.SaveChanges();
+            return RedirectToAction("Facility", new { id = facilityId});
+        }
     }
 }

@@ -22,7 +22,7 @@
     {
         <tr>
             <td>@f.Id</td>
-            <td>@f.Name</td>
+            <td><a href="~/Admin/Lighthouse/Facility?id=@f.Id">@f.Name</a></td>
             <td>@f.City.Name</td>
             <td>@f.City.Country.Name</td>
             <td><a href="~/Admin/Lighthouse/DeleteFacility?id=@f.Id">Delete</a></td>
