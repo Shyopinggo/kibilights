@@ -1,0 +1,20 @@
+﻿@using KibiLights.Models.Lighthouse
+@{
+    ViewData["Title"] = "AddFacility";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Add Facility</h1>
+
+<form method="post" asp-area="Admin" asp-action="AddFacility" asp-controller="Lighthouse">
+    <label>Name:</label><br />
+    <input type="text" name="Name" /><br />
+    <label>City:</label><br />
+    <select name="cityId">
+        @foreach (City city in (List<City>)ViewData["Cities"])
+        {
+            <option value="@city.Id">@city.Name</option>
+        }
+    </select><br />
+    <input type="submit" value="Add" />
+</form>

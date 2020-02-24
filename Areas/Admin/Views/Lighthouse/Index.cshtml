@@ -7,12 +7,16 @@
 
 <h1>Lighthouse Admin Panel</h1>
 <h2>Facilities</h2>
-<table>
+<div>
+    <a asp-area="Admin" asp-action="AddFacility" asp-controller="Lighthouse">Add facility</a>
+</div>
+<table class="table">
     <tr>
         <th>Id</th>
         <th>Name</th>
         <th>City</th>
         <th>Country</th>
+        <th>Action</th>
     </tr>
     @foreach (Facility f in Model)
     {
@@ -21,6 +25,7 @@
             <td>@f.Name</td>
             <td>@f.City.Name</td>
             <td>@f.City.Country.Name</td>
+            <td><a href="~/Admin/Lighthouse/DeleteFacility?id=@f.Id">Delete</a></td>
         </tr>
     }
 </table>
