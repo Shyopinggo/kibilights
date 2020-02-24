@@ -1,0 +1,26 @@
+﻿@using KibiLights.Models.Lighthouse
+@model IEnumerable<Facility>
+@{
+    ViewData["Title"] = "Lighthouse";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Lighthouse Admin Panel</h1>
+<h2>Facilities</h2>
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>City</th>
+        <th>Country</th>
+    </tr>
+    @foreach (Facility f in Model)
+    {
+        <tr>
+            <td>@f.Id</td>
+            <td>@f.Name</td>
+            <td>@f.City.Name</td>
+            <td>@f.City.Country.Name</td>
+        </tr>
+    }
+</table>
