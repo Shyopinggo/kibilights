@@ -1,0 +1,42 @@
+﻿@using KibiLights.Models
+@model IEnumerable<User>
+@{
+    ViewData["Title"] = "Users";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Users</h1>
+
+<table class="table">
+    <tr>
+        <th>Id</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Action</th>
+    </tr>
+    @foreach (var u in Model)
+    {
+        <tr>
+            <td>@u.Id</td>
+            <td>@u.Email</td>
+            <td>@u.Role.Name</td>
+            <td><a href="~/Admin/Users/DeleteUser?id=@u.Id">Delete</a></td>
+        </tr>
+    }
+</table>
+
+<h2>Add User</h2>
+<form method="post" asp-area="Admin" asp-controller="Users" asp-action="AddUser">
+    <label>Email:</label><br />
+    <input type="text" name="email" /><br />
+    <label>Password:</label><br />
+    <input type="text" name="password" /><br />
+    <label>Role:</label><br />
+    <select name="roleId">
+        @foreach (var r in (List<Role>)ViewData["Roles"])
+        {
+            <option value="@r.Id">@r.Name</option>
+        }
+        </select><br />
+        <input type="submit" value="Add" />
+    </form>

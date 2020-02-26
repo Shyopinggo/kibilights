@@ -51,7 +51,7 @@ namespace KibiLights.Controllers
             if (ModelState.IsValid)
             {
                 Role role = await context.Roles.FirstOrDefaultAsync(r => r.Name == "User");
-                user = new User { Email = model.Email, Password = HashPassword(model.Password), Role = role };
+                user = new User { Email = model.Email, Password = Tools.HashPassword(model.Password), Role = role };
                 context.Users.Add(user);
                 await context.SaveChangesAsync();
                 await Authenticate(model.Email, role.Name);
@@ -74,7 +74,7 @@ namespace KibiLights.Controllers
         public async Task<IActionResult> Login(LoginModel model)
         {
             if (!ModelState.IsValid) return View();
-            var user = await context.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == HashPassword(model.Password));
+            var user = await context.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == Tools.HashPassword(model.Password));
             if (user == null)
             {
                 ModelState.AddModelError("", localizer["WrongPassword"]);
@@ -100,19 +100,6 @@ namespace KibiLights.Controllers
             };
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
-        }
-
-        private string HashPassword(string input)
-        {
-            var bytes = Encoding.UTF8.GetBytes(input);
-            using (var hasher = SHA512.Create())
-            {
-                var resultBytes = hasher.ComputeHash(bytes);
-                var result = new StringBuilder();
-                foreach (var b in resultBytes)
-                    result.Append(b.ToString("X2"));
-                return result.ToString();
-            }
         }
     }
 }
