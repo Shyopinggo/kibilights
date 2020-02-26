@@ -1,0 +1,20 @@
+﻿@model KibiLights.Models.Lighthouse.Route
+@{
+    ViewData["Title"] = "Edit Route";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit Route</h1>
+
+<form method="post" asp-area="Admin" asp-controller="Lighthouse" asp-action="EditRoute">
+    <div asp-validation-summary="ModelOnly"></div>
+    <input type="hidden" asp-for="Id" value="@Model.Id" />
+    <input type="hidden" asp-for="FacilityId" value="@Model.FacilityId" />
+    <label asp-for="Name">Name:</label><br />
+    <input type="text" asp-for="Name" value="@Model.Name" />
+    <span asp-validation-for="Name"></span><br />
+    <label asp-for="Content">Content:</label><br />
+    <textarea asp-for="Content">@Model.Content</textarea><br />
+    <span asp-validation-for="Content"></span><br />
+    <input type="submit" value="Save" />
+</form>

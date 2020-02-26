@@ -64,7 +64,7 @@ namespace KibiLights.Areas.Admin.Controllers
         public IActionResult Facility(int id)
         {
             var facility = context.Facilities.FirstOrDefault(f => f.Id == id);
-            if (facility == null) return BadRequest();
+            if (facility == null) return BadRequest($"Wrong facility id {id}");
             ViewData["Facility"] = facility;
             ViewData["Beacons"] = context.Beacons.Where(b => b.Facility == facility).ToList();
             ViewData["Routes"] = context.Routes.Where(r => r.Facility == facility).ToList();
@@ -88,6 +88,43 @@ namespace KibiLights.Areas.Admin.Controllers
             context.Beacons.Remove(beacon);
             context.SaveChanges();
             return RedirectToAction("Facility", new { id = facilityId});
+        }
+
+        public IActionResult AddRoute(string name, string content, int facilityId)
+        {
+            var facility = context.Facilities.FirstOrDefault(f => f.Id == facilityId);
+            if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(content) || facility == null) return BadRequest("Empty or wrong value for name, content, or facilityId");
+            var route = new Route { Name = name, Content = content, Facility = facility};
+            context.Routes.Add(route);
+            context.SaveChanges();
+            return RedirectToAction("Facility", new { id = facilityId});
+        }
+
+        public IActionResult DeleteRoute(int id, int facilityId)
+        {
+            var route = context.Routes.FirstOrDefault(r => r.Id == id);
+            if (route == null) return BadRequest("Wrong route id");
+            context.Routes.Remove(route);
+            context.SaveChanges();
+            return RedirectToAction("Facility", new { id = facilityId });
+        }
+
+        [HttpGet]
+        public IActionResult EditRoute(int id)
+        {
+            var route = context.Routes.FirstOrDefault(r => r.Id == id);
+            if (route == null) return BadRequest("Wrong route id");
+            return View(route);
+        }
+
+        [HttpPost]
+        public IActionResult EditRoute(Route route)
+        {
+            if (string.IsNullOrEmpty(route.Name) || string.IsNullOrEmpty(route.Content)) ModelState.AddModelError("", "Name or content can not be empty");
+            if (!ModelState.IsValid) return View(route);
+            context.Routes.Update(route);
+            context.SaveChanges();
+            return RedirectToAction("Facility", new { id = route.FacilityId});
         }
     }
 }

@@ -6,6 +6,7 @@
 }
 
 <h1>@facility.Name</h1>
+<p><a asp-area="Admin" asp-controller="Lighthouse" asp-action="Index">Back to facility list</a></p>
 
 <h2>Beacons</h2>
 
@@ -38,14 +39,29 @@
     <tr>
         <th>Id</th>
         <th>Name</th>
+        <th>Content</th>
         <th>Action</th>
     </tr>
-    @foreach (Route b in (List<Route>)ViewData["Routes"])
+    @foreach (Route r in (List<Route>)ViewData["Routes"])
     {
         <tr>
-            <td>@b.Id</td>
-            <td>@b.Name</td>
-            <td><a href="~/Admin/Lighthouse/DeleteBeacon?id=@b.Id">Delete</a></td>
+            <td>@r.Id</td>
+            <td>@r.Name</td>
+            <td>@r.Content</td>
+            <td>
+                <a href="~/Admin/Lighthouse/EditRoute?id=@r.Id">Edit</a>
+                <a href="~/Admin/Lighthouse/DeleteRoute?id=@r.Id&facilityId=@facility.Id">Delete</a>
+            </td>
         </tr>
     }
 </table>
+
+<h3>Add route</h3>
+<form method="post" asp-area="Admin" asp-action="AddRoute" asp-controller="Lighthouse">
+    <input type="hidden" name="facilityId" value="@facility.Id" />
+    <label>Name:</label><br />
+    <input type="text" name="name" /><br />
+    <label>Content:</label><br />
+    <textarea name="content"></textarea><br />
+    <input type="submit" value="Add" />
+</form>
