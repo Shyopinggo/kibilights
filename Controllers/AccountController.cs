@@ -7,6 +7,8 @@ using System.Security.Cryptography;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -89,6 +91,28 @@ namespace KibiLights.Controllers
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Index", "Home");
+        }
+
+        public async Task<IActionResult> GetToken(string name, string password)
+        {
+            var user = await context.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Email == name && u.Password == Tools.HashPassword(password));
+            if (user == null) return BadRequest("Wrong username or password");
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role.Name)
+            };
+            ClaimsIdentity identity = new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+            var now = DateTime.UtcNow;
+            var token = new JwtSecurityToken(issuer: AuthOptions.ISSUER,
+                audience: AuthOptions.AUDIENCE,
+                notBefore: now,
+                claims: identity.Claims,
+                expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
+                signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+            var encodedToken = new JwtSecurityTokenHandler().WriteToken(token);
+            var response = new { access_token = encodedToken, username = identity.Name};
+            return Json(response);
         }
 
         private async Task Authenticate(string name, string role)

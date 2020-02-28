@@ -11,6 +11,7 @@ namespace KibiLights
     {
         public static string HashPassword(string input)
         {
+            if (string.IsNullOrEmpty(input)) return null;
             var bytes = Encoding.UTF8.GetBytes(input);
             using (var hasher = SHA512.Create())
             {

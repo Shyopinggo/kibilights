@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Localization;
 
 using KibiLights.Models;
+using KibiLights.Areas.API.Hubs;
 
 namespace KibiLights
 {
@@ -38,6 +39,7 @@ namespace KibiLights
                 {
                     options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Register");
                 });
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,6 +77,7 @@ namespace KibiLights
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<LighthouseHub>("/api/lighthouse/hub");
                 endpoints.MapControllerRoute(name: "Areas", pattern: "{area:exists}/{controller=Home}/{action=Index}");
                 endpoints.MapControllerRoute(
                     name: "default",
