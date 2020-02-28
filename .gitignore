@@ -1,2 +1,4 @@
-bin/
-obj/
+kibilights/bin/
+kibilights/obj/
+spark/bin/
+spark/obj/
