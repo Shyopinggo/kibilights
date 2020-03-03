@@ -14,16 +14,20 @@ namespace Spark
         public static string Path = "config.json";
         public int SparkId { get; set; }
         public string LighthouseHost { get; set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
         public Beacon[] Beacons { get; set; }
 
         private Config()
         {
             LighthouseHost = "https://kibilights.com";
             SparkId = 0;
+            UserName = "UserName";
+            Password = "123";
             Beacons = new Beacon[]
             {
-                new Beacon{ Id = 1, IP = "192.168.0.101"},
-                new Beacon{ Id = 2, IP = "192.168.0.102"}
+                new Beacon{ Id = 1, Name = "Aud 321", IP = "192.168.0.101"},
+                new Beacon{ Id = 2, Name = "Aud 322", IP = "192.168.0.102"}
             };
         }
 

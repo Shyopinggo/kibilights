@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.IO;
 
 namespace Spark
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             Console.WriteLine("Spark v 1");
             if (!File.Exists(Config.Path))
@@ -36,7 +37,11 @@ namespace Spark
                     return;
                 }
             }
-            Console.WriteLine(Config.Get().GetBeaconIP(1));
+            var client = new Client();
+            await client.ConnectToHub();
+            await client.Test(2);
+            await client.DisconnectFromHub();
+            Console.ReadLine();
         }
     }
 }

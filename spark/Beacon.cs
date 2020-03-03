@@ -7,6 +7,7 @@ namespace Spark
     public class Beacon
     {
         public int Id { get; set; }
+        public string Name { get; set; }
         public string IP { get; set; }
     }
 }
