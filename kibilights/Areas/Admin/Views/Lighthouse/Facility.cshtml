@@ -21,7 +21,10 @@
 <tr>
     <td>@b.Id</td>
     <td>@b.Name</td>
-    <td><a href="~/Admin/Lighthouse/DeleteBeacon?id=@b.Id&facilityId=@facility.Id">Delete</a></td>
+    <td>
+        <button class="btn btn-sm" onclick="Call(@b.Id)">Call</button>
+    <a href="~/Admin/Lighthouse/DeleteBeacon?id=@b.Id&facilityId=@facility.Id">Delete</a>
+    </td>
 </tr>
     }
 </table>
@@ -65,3 +68,8 @@
     <textarea name="content"></textarea><br />
     <input type="submit" value="Add" />
 </form>
+<script>
+    function Call(id) {
+        fetch("/api/lighthouse/call?name=client&id=" + id);
+    }
+</script>

@@ -12,6 +12,9 @@ namespace Spark
     public class Client
     {
         private HubConnection hubConnection;
+        private bool isConnected;
+        private int reconnectTime;
+        private int attemptTime;
         private class GetTokenResponse
         {
             public string access_token { get; set; }
@@ -20,10 +23,13 @@ namespace Spark
 
         public Client()
         {
+            isConnected = false;
+            reconnectTime = 5000;
+            attemptTime = 10000;
             hubConnection = new HubConnectionBuilder().WithUrl(Config.Get().LighthouseHost + "/api/lighthouse/hub",
                 (options) => options.AccessTokenProvider = GetAccessToken)
-                .WithAutomaticReconnect()
                 .Build();
+            hubConnection.Closed += Reconnect;
             hubConnection.On<int>("Call", Call);
         }
 
@@ -31,10 +37,13 @@ namespace Spark
         {
             await hubConnection.StartAsync();
             Console.WriteLine("Connected to hub.");
+            isConnected = true;
         }
 
         public async Task DisconnectFromHub()
         {
+            if (!isConnected) return;
+            isConnected = false;
             await hubConnection.StopAsync();
             Console.WriteLine("Disconnected");
         }
@@ -68,6 +77,31 @@ namespace Spark
                 return reader.ReadToEnd();
             }
             response.Close();
+        }
+
+        public async Task Reconnect(Exception ex)
+        {
+            if (ex == null) return;
+            Console.WriteLine("Failed to connect.");
+            Console.WriteLine(ex.Message);
+            isConnected = false;
+            int timeOut = reconnectTime;
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine($"Reconnect in {timeOut / 1000} seconds.");
+                    await Task.Delay(timeOut);
+                    await ConnectToHub();
+                    break;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Failed to reconnect.");
+                    Console.WriteLine(e.Message);
+                    timeOut += attemptTime;
+                }
+            }
         }
     }
 }

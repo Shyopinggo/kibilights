@@ -13,10 +13,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.SignalR;
 
 using KibiLights.Models;
 using KibiLights.Areas.API.Hubs;
-using Microsoft.IdentityModel.Tokens;
 
 namespace KibiLights
 {
@@ -32,6 +33,7 @@ namespace KibiLights
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IUserIdProvider, KibiLights.Areas.API.Hubs.UserIdProvider>();
             services.AddLocalization(options => options.ResourcesPath = "Resources");
             services.AddControllersWithViews().AddDataAnnotationsLocalization().AddViewLocalization();
             string connectionString = Configuration.GetConnectionString("DefaultConnection");

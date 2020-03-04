@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace KibiLights.Areas.API.Hubs
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Client")]
     public class LighthouseHub : Hub
     {
         public async Task Test(int id)

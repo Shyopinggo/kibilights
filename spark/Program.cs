@@ -6,6 +6,8 @@ namespace Spark
 {
     class Program
     {
+        private static Client client;
+        
         static async Task Main(string[] args)
         {
             Console.WriteLine("Spark v 1");
@@ -20,7 +22,8 @@ namespace Spark
                 catch (Exception ex)
                 {
                     Console.WriteLine("Failed to save default config file.");
-                    Console.WriteLine(ex.ToString());
+                    Console.WriteLine(ex.Message);
+                    Console.WriteLine(ex.StackTrace);
                     return;
                 }
             }
@@ -33,15 +36,36 @@ namespace Spark
                 catch (Exception ex)
                 {
                     Console.WriteLine("Failed to load config file.");
-                    Console.WriteLine(ex.ToString());
+                    Console.WriteLine(ex.Message);
+                    Console.WriteLine(ex.StackTrace);
                     return;
                 }
             }
-            var client = new Client();
-            await client.ConnectToHub();
-            await client.Test(2);
-            await client.DisconnectFromHub();
-            Console.ReadLine();
+            client = new Client();
+            try
+            {
+                await client.ConnectToHub();
+            }
+            catch (Exception ex)
+            {
+                client.Reconnect(ex);
+            }
+            while (true)
+            {
+                string command = Console.ReadLine();
+                if (command == "exit")
+                {
+                    await client.DisconnectFromHub();
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Command not found.");
+                    continue;
+                }
+            }
         }
+
+        
     }
 }
