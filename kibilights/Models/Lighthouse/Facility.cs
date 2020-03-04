@@ -11,6 +11,8 @@ namespace KibiLights.Models.Lighthouse
         public string Name { get; set; }
         public int? CityId { get; set; }
         public City City { get; set; }
+        public int? UserId { get; set; }
+        public User User { get; set; }
         public List<Beacon> Beacons { get; set; }
         public List<Route> Routes { get; set; }
     }

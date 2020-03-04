@@ -48,6 +48,7 @@ namespace Spark
             }
             catch (Exception ex)
             {
+                Console.Write(ex.StackTrace);
                 client.Reconnect(ex);
             }
             while (true)

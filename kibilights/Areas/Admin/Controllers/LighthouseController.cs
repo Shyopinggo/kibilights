@@ -24,7 +24,7 @@ namespace KibiLights.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            var facilities = context.Facilities.Include(f => f.City).Include(f => f.City.Country).ToList();
+            var facilities = context.Facilities.Include(f => f.City).Include(f => f.City.Country).Include(f => f.User).ToList();
             return View(facilities);
         }
 
@@ -32,18 +32,20 @@ namespace KibiLights.Areas.Admin.Controllers
         public IActionResult AddFacility()
         {
             ViewData["Cities"] = context.Cities.ToList();
+            ViewData["Users"] = context.Users.Include(u => u.Role).ToList();
             return View();
         }
 
         [HttpPost]
-        public IActionResult AddFacility(string name, int cityId)
+        public IActionResult AddFacility(string name, int cityId, int userId)
         {
             if (string.IsNullOrEmpty(name))
             {
-                return Content("Name is empty!");
+                return BadRequest("Name is empty!");
             }
             var city = context.Cities.FirstOrDefault(c => c.Id == cityId);
-            var facility = new Facility { Name = name, City = city};
+            var user = context.Users.FirstOrDefault(u => u.Id == userId);
+            var facility = new Facility { Name = name, City = city, User = user};
             context.Facilities.Add(facility);
             context.SaveChanges();
             return RedirectToAction("Index");
@@ -63,7 +65,7 @@ namespace KibiLights.Areas.Admin.Controllers
 
         public IActionResult Facility(int id)
         {
-            var facility = context.Facilities.FirstOrDefault(f => f.Id == id);
+            var facility = context.Facilities.Include(f => f.User).FirstOrDefault(f => f.Id == id);
             if (facility == null) return BadRequest($"Wrong facility id {id}");
             ViewData["Facility"] = facility;
             ViewData["Beacons"] = context.Beacons.Where(b => b.Facility == facility).ToList();

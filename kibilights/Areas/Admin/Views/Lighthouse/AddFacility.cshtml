@@ -16,5 +16,13 @@
             <option value="@city.Id">@city.Name</option>
         }
     </select><br />
+    <label>User:</label><br />
+    <select name="userId">
+        @foreach (User user in (List<User>)ViewData["Users"])
+        {
+            if (user.Role.Name == "Spark")
+            {<option value="@user.Id">@user.Email</option>}
+        }
+    </select><br />
     <input type="submit" value="Add" />
 </form>
