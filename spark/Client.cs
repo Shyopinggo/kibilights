@@ -55,8 +55,27 @@ namespace Spark
 
         public void Call(int beaconId)
         {
-            Console.WriteLine(Config.Get().GetBeaconIP(beaconId));
-            Console.Beep(beaconId * 1000, 1000);
+            string ip;
+            try
+            {
+                ip = Config.Get().GetBeaconIP(beaconId);
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                Console.WriteLine($"Unknown beacon id {beaconId}");
+                return;
+            }
+            Console.WriteLine($"Calling {ip}");
+            try
+            {
+                string url = $"http://{ip}/call";
+                Console.WriteLine(HttpRequest(url));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Failed to connect to {ip}");
+                Console.WriteLine(ex.Message);
+            }
         }
 
         public async Task<string> GetAccessToken()

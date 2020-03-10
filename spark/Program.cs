@@ -59,6 +59,7 @@ namespace Spark
                     await client.DisconnectFromHub();
                     break;
                 }
+                else if (command == "test") Test();
                 else
                 {
                     Console.WriteLine("Command not found.");
@@ -67,6 +68,18 @@ namespace Spark
             }
         }
 
-        
+        private static void Test()
+        {
+            Console.WriteLine("Beacon id:");
+            int id;
+            if (int.TryParse(Console.ReadLine(), out id))
+            {
+                client.Test(id);
+            }
+            else
+            {
+                Console.WriteLine("Invalid beacon id.");
+            }
+        }
     }
 }
