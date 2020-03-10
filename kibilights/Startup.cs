@@ -41,7 +41,7 @@ namespace KibiLights
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
-                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Register");
+                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
                 })
                 .AddJwtBearer(options =>
                 {

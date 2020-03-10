@@ -8,11 +8,13 @@ namespace KibiLights.ViewModels
 {
     public class LoginModel
     {
-        [Required(ErrorMessage = "Enter an e-mail")]
-        [EmailAddress(ErrorMessage = "Incorrect e-mail")]
+        [Required(ErrorMessage = "EmailMissing")]
+        [EmailAddress(ErrorMessage = "EmailMissing")]
+        [Display(Name = "Email")]
         public string Email { get; set; }
-        [Required(ErrorMessage = "Enter a password")]
+        [Required(ErrorMessage = "PasswordMissing")]
         [DataType(DataType.Password)]
+        [Display(Name = "Password")]
         public string Password { get; set; }
     }
 }

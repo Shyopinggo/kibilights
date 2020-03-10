@@ -1,24 +1,25 @@
 ﻿@model KibiLights.ViewModels.LoginModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 @{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = localizer["Login"];
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Login</h1>
-
+    <h1>@localizer["Login"]</h1>
+<p><a asp-action="Register" asp-controller="Account">@localizer["Register"]</a></p>
 <form asp-action="Login" asp-controller="Account" asp-antiforgery="true">
     <div class="validation" asp-validation-summary="ModelOnly"></div>
     <div class="form-group">
-        <label asp-for="Email">Enter e-mail:</label>
+        <label asp-for="Email"></label>
         <input type="text" asp-for="Email" />
         <span asp-validation-for="Email"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Password">Enter a password:</label>
+        <label asp-for="Password"></label>
         <input asp-for="Password" />
         <span asp-validation-for="Password"></span>
     </div>
     <div class="form-group">
-        <input type="submit" value="Login" class="btn btn-primary" />
+        <input type="submit" value="@localizer["Login"]" class="btn btn-primary" />
     </div>
 </form>
