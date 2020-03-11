@@ -6,23 +6,45 @@
 
 <h1>Add Facility</h1>
 
-<form method="post" asp-area="Admin" asp-action="AddFacility" asp-controller="Lighthouse">
-    <label>Name:</label><br />
-    <input type="text" name="Name" /><br />
-    <label>City:</label><br />
-    <select name="cityId">
-        @foreach (City city in (List<City>)ViewData["Cities"])
-        {
-            <option value="@city.Id">@city.Name</option>
-        }
-    </select><br />
-    <label>User:</label><br />
-    <select name="userId">
-        @foreach (User user in (List<User>)ViewData["Users"])
-        {
-            if (user.Role.Name == "Spark")
-            {<option value="@user.Id">@user.Email</option>}
-        }
-    </select><br />
-    <input type="submit" value="Add" />
+<form class="my-3" method="post" asp-area="Admin" asp-action="AddFacility" asp-controller="Lighthouse">
+    <div class="form-group form-row">
+        <div class="col-sm-3">
+            <label>Name:</label>
+        </div>
+        <div class="col-sm-3">
+            <input class="form-control-plaintext bg-secondary" type="text" name="Name" />
+        </div>
+    </div>
+    <div class="form-group form-row">
+        <div class="col-sm-3">
+            <label>City:</label>
+        </div>
+        <div class="col-sm-3">
+            <select class="form-control-plaintext bg-secondary" name="cityId">
+                @foreach (City city in (List<City>)ViewData["Cities"])
+                {
+                    <option value="@city.Id">@city.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="form-group form-row">
+        <div class="col-sm-3">
+            <label>User:</label>
+            </div>
+        <div class="col-sm-3">
+            <select class="form-control-plaintext bg-secondary" name="userId">
+                @foreach (User user in (List<User>)ViewData["Users"])
+                {
+                    if (user.Role.Name == "Spark")
+                    {
+                        <option value="@user.Id">@user.Email</option>
+                    }
+                }
+            </select>
+            </div>
+        </div>
+    <div class="form-group">
+        <input class="btn btn-primary" type="submit" value="Add" />
+        </div>
 </form>

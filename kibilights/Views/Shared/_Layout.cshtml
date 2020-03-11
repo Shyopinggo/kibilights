@@ -37,9 +37,9 @@
                     }
                 </ul>
             <form class="form-inline" asp-action="SetLanguage" asp-controller="Home" asp-route-returnUrl="@Context.Request.Path" method="post">
-                <input class="btn btn-success btn-sm" type="submit" name="language" value="en" class="btn btn-sm" />
-                <input class="btn btn-success btn-sm" type="submit" name="language" value="et" class="btn btn-sm" />
-                <input class="btn btn-success btn-sm" type="submit" name="language" value="ru" class="btn btn-sm" />
+                <input class="btn btn-secondary btn-sm" type="submit" name="language" value="en" class="btn btn-sm" />
+                <input class="btn btn-secondary btn-sm" type="submit" name="language" value="et" class="btn btn-sm" />
+                <input class="btn btn-secondary btn-sm" type="submit" name="language" value="ru" class="btn btn-sm" />
             </form>
                 </div>
         </nav>
@@ -51,8 +51,8 @@
         </main>
     </div>
 
-    <footer class="border-top footer bg-dark text-white">
-        <div class="container">
+    <footer class="border-top text-muted bg-dark">
+        <div class="container py-1">
             &copy; 2020 - KibiLights - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>

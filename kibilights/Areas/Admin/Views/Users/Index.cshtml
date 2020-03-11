@@ -7,7 +7,7 @@
 
 <h1>Users</h1>
 
-<table class="table">
+<table class="table table-dark table-hover">
     <tr>
         <th>Id</th>
         <th>Email</th>
@@ -26,17 +26,37 @@
 </table>
 
 <h2>Add User</h2>
-<form method="post" asp-area="Admin" asp-controller="Users" asp-action="AddUser">
-    <label>Email:</label><br />
-    <input type="text" name="email" /><br />
-    <label>Password:</label><br />
-    <input type="text" name="password" /><br />
-    <label>Role:</label><br />
-    <select name="roleId">
-        @foreach (var r in (List<Role>)ViewData["Roles"])
-        {
-            <option value="@r.Id">@r.Name</option>
-        }
-        </select><br />
-        <input type="submit" value="Add" />
-    </form>
+<form class="my-3" method="post" asp-area="Admin" asp-controller="Users" asp-action="AddUser">
+    <div class="form-group form-row">
+        <div class="col-sm-3">
+            <label>Email:</label>
+            </div>
+        <div class="col-sm-3">
+            <input class="form-control-plaintext bg-secondary" type="text" name="email" />
+        </div>
+        </div>
+    <div class="form-group form-row">
+        <div class="col-sm-3">
+            <label>Password:</label>
+            </div>
+        <div class="col-sm-3">
+            <input class="form-control-plaintext bg-secondary" type="text" name="password" />
+        </div>
+        </div>
+    <div class="form-group form-row">
+        <div class="col-sm-3">
+            <label>Role:</label>
+            </div>
+        <div class="col-sm-3">
+            <select class="form-control-plaintext bg-secondary" name="roleId">
+                @foreach (var r in (List<Role>)ViewData["Roles"])
+                {
+                    <option value="@r.Id">@r.Name</option>
+                }
+            </select>
+            </div>
+        </div>
+    <div class="form-group">
+        <input class="btn btn-primary" type="submit" value="Add" />
+        </div>
+</form>

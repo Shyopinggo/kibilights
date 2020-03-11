@@ -6,15 +6,17 @@
 
 <h1>Edit Route</h1>
 
-<form method="post" asp-area="Admin" asp-controller="Lighthouse" asp-action="EditRoute">
+<form class="my-3" method="post" asp-area="Admin" asp-controller="Lighthouse" asp-action="EditRoute">
     <div asp-validation-summary="ModelOnly"></div>
     <input type="hidden" asp-for="Id" value="@Model.Id" />
     <input type="hidden" asp-for="FacilityId" value="@Model.FacilityId" />
-    <label asp-for="Name">Name:</label><br />
-    <input type="text" asp-for="Name" value="@Model.Name" />
-    <span asp-validation-for="Name"></span><br />
-    <label asp-for="Content">Content:</label><br />
-    <textarea asp-for="Content">@Model.Content</textarea><br />
-    <span asp-validation-for="Content"></span><br />
-    <input type="submit" value="Save" />
+    <label asp-for="Name">Name:</label>
+                                       <div class="col-sm-4 px-0">
+                                           <input class="form-control-plaintext bg-secondary" type="text" asp-for="Name" value="@Model.Name" />
+                                       </div>
+    <span asp-validation-for="Name"></span>
+    <label asp-for="Content">Content:</label>
+    <textarea class="form-control-plaintext bg-secondary" rows="5" asp-for="Content">@Model.Content</textarea>
+    <span asp-validation-for="Content"></span>
+    <input class="btn btn-primary" type="submit" value="Save" />
 </form>

@@ -7,24 +7,42 @@
 
 <h1>@localizer["Register"]</h1>
 
-<form asp-action="Register" asp-controller="Account" asp-antiforgery="true">
+<form class="my-3" asp-action="Register" asp-controller="Account" asp-antiforgery="true">
     <div class="validation" asp-validation-summary="ModelOnly"></div>
-    <div class="form-group">
-        <label asp-for="Email"></label>
-        <input type="text" asp-for="Email" />
-        <span asp-validation-for="Email"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Password"></label>
-        <input asp-for="Password" />
-        <span asp-validation-for="Password"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="ConfirmPassword"></label>
-        <input asp-for="ConfirmPassword" />
-        <span asp-validation-for="ConfirmPassword"></span>
-    </div>
-    <div class="form-group">
-        <input type="submit" value="@localizer["Register"]" class="btn btn-primary" />
-    </div>
+    <div class="form-group form-row">
+        <div class="col-sm-3">
+            <label asp-for="Email"></label>
+        </div>
+        <div class="col-sm-3">
+            <input class="form-control-plaintext bg-secondary" type="text" asp-for="Email" />
+        </div>
+        <div class="col-sm-3">
+            <span asp-validation-for="Email"></span>
+        </div>
+        </div>
+    <div class="form-group form-row">
+        <div class="col-sm-3">
+            <label asp-for="Password"></label>
+        </div>
+        <div class="col-sm-3">
+            <input class="form-control-plaintext bg-secondary" asp-for="Password" />
+        </div>
+        <div class="col-sm-3">
+            <span asp-validation-for="Password"></span>
+        </div>
+        </div>
+        <div class="form-group form-row">
+            <div class="col-sm-3">
+                <label asp-for="ConfirmPassword"></label>
+            </div>
+            <div class="col-sm-3">
+                <input class="form-control-plaintext bg-secondary" asp-for="ConfirmPassword" />
+            </div>
+            <div class="col-sm-3">
+                <span asp-validation-for="ConfirmPassword"></span>
+            </div>
+            </div>
+        <div class="form-group">
+            <input type="submit" value="@localizer["Register"]" class="btn btn-primary" />
+        </div>
 </form>
