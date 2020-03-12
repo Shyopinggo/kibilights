@@ -1,11 +1,22 @@
 ﻿@using KibiLights.Models.Lighthouse
+@inject KibiLights.Areas.API.Hubs.ConnectedFacilities connections
 @{
     Facility facility = (Facility)ViewData["Facility"];
     ViewData["Title"] = facility.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>@facility.Name</h1>
+    <h1>
+        @facility.Name
+    @if (connections.IsConnected(facility.User.Email))
+    {
+        <small>(Connected)</small>
+    }
+    else
+    {
+        <small>(Disconnected)</small>
+    }
+    </h1>
 <p><a asp-area="Admin" asp-controller="Lighthouse" asp-action="Index">Back to facility list</a></p>
 
 <h2>Beacons</h2>

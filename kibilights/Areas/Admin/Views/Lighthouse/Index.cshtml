@@ -1,5 +1,6 @@
 ﻿@using KibiLights.Models.Lighthouse
 @model IEnumerable<Facility>
+@inject KibiLights.Areas.API.Hubs.ConnectedFacilities connections
 @{
     ViewData["Title"] = "Lighthouse";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -17,6 +18,7 @@
         <th>City</th>
         <th>Country</th>
         <th>Spark User</th>
+        <th>Status</th>
         <th>Action</th>
     </tr>
     @foreach (Facility f in Model)
@@ -27,6 +29,16 @@
             <td>@f.City.Name</td>
             <td>@f.City.Country.Name</td>
             <td>@f.User.Email</td>
+            <td>
+                @if (connections.IsConnected(f.User.Email))
+                {
+                    <span>Connected</span>
+                }
+                else
+                {
+            <span>Disconnected</span>
+                }
+                </td>
             <td><a href="~/Admin/Lighthouse/DeleteFacility?id=@f.Id">Delete</a></td>
         </tr>
     }

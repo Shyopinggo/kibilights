@@ -34,6 +34,7 @@ namespace KibiLights
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IUserIdProvider, KibiLights.Areas.API.Hubs.UserIdProvider>();
+            services.AddSingleton<ConnectedFacilities>();
             services.AddLocalization(options => options.ResourcesPath = "Resources");
             services.AddControllersWithViews().AddDataAnnotationsLocalization().AddViewLocalization();
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
