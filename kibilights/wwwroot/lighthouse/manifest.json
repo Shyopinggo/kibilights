@@ -1,0 +1,15 @@
+{
+  "short_name": "Lighthouse",
+  "name": "Lighthouse",
+  "icons": [
+    {
+      "src":"/lighthouse/icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/?utm_source=homescreen",
+  "background_color": "#000",
+  "theme_color": "#000",
+  "display": "standalone"
+}
