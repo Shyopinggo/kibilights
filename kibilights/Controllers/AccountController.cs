@@ -95,8 +95,9 @@ namespace KibiLights.Controllers
 
         public async Task<IActionResult> GetToken(string name, string password)
         {
+            if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(password)) return BadRequest("Name or password is empty");
             var user = await context.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Email == name && u.Password == Tools.HashPassword(password));
-            if (user == null) return BadRequest("Wrong username or password");
+            if (user == null) return Unauthorized("Wrong login or password.");
             var claims = new List<Claim>
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email),

@@ -10,11 +10,58 @@
     <title>Lighthouse</title>
     <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="style.css" />
+    <script src="localizer.js"></script>
 </head>
 <body>
     <div class="container">
         <h1>Lighthouse</h1>
+        <h2 id="hLogin">Login</h2>
+        <form>
+            <div class="form-group">
+                <label for="email" id="lEmail">Email:</label>
+                <input class="form-control-plaintext bg-secondary border" type="text" id="email" />
+            </div>
+            <div class="form-group">
+                <label for="password" id="lPassword">Password:</label>
+                <input class="form-control-plaintext bg-secondary border" type="password" id="password" />
+            </div>
+            <button class="btn btn-primary" id="bLogin">Login</button>
+        </form>
     </div>
+
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        if (window.localStorage.getItem('access_token')) document.location = 'main.html';
+        let lan = window.localStorage.getItem('language');
+        if (!lan) {
+            lan = window.navigator.language.slice(0, 2);
+            window.localStorage.setItem('language', lan);
+        }
+        $('#hLogin').html(Localizer.login(lan));
+        $('#lEmail').html(Localizer.email(lan));
+        $('#lPassword').html(Localizer.password(lan));
+        $('#bLogin').html(Localizer.login(lan));
+
+        $('#bLogin').click(() => {
+            event.preventDefault();
+            let name = $('#email').val();
+            let password = $('#password').val();
+            if (name === '' || password === '') {
+                alert(Localizer.emptyPassword(lan));
+                return;
+            }
+            $.getJSON('/account/gettoken?name=' + name + '&password=' + password, (data, status) => {
+                if (status === 'success') {
+                    window.localStorage.setItem('access_token', data.access_token);
+                    document.location = 'main.html';
+                }
+            }).catch(error => {
+                if (error.status === 401) alert(Localizer.wrongPassword(lan));
+                else alert(Localizer.connectionError(lan));
+            });
+        });
+    </script>
 
     <script>
         if ('serviceWorker' in navigator) {
@@ -31,7 +78,5 @@
             console.log('service worker is not supported');
         }
     </script>
-    <script src="/lib/jquery/dist/jquery.min.js"></script>
-    <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
