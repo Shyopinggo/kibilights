@@ -3,22 +3,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 
+using KibiLights.Models;
+using KibiLights.Models.Lighthouse;
 using KibiLights.Areas.API.Hubs;
 
 namespace KibiLights.Areas.API.Controllers
 {
     [Area("API")]
-    [Authorize]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class LighthouseController : Controller
     {
         private IHubContext<LighthouseHub> hubContext;
+        private ConnectedFacilities connectedFacilities;
+        private ApplicationContext dbContext;
 
-        public LighthouseController(IHubContext<LighthouseHub> hubContext)
+        public LighthouseController(IHubContext<LighthouseHub> hubContext, ConnectedFacilities connectedFacilities, ApplicationContext dbContext)
         {
             this.hubContext = hubContext;
+            this.connectedFacilities = connectedFacilities;
+            this.dbContext = dbContext;
         }
 
         [HttpGet]
@@ -28,9 +36,11 @@ namespace KibiLights.Areas.API.Controllers
             return Ok();
         }
         
-        public IActionResult Index()
+        [HttpGet]
+        public JsonResult GetFacilities()
         {
-            return Content("Hello, world!");
+            var facilities = dbContext.Facilities.ToList();
+            return Json(facilities);
         }
     }
 }

@@ -53,7 +53,7 @@ namespace KibiLights
                         ValidIssuer = AuthOptions.ISSUER,
                         ValidateAudience = true,
                         ValidAudience = AuthOptions.AUDIENCE,
-                        ValidateLifetime = true,
+                        ValidateLifetime = false,
                         IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
                         ValidateIssuerSigningKey = true,
                     };
@@ -64,7 +64,7 @@ namespace KibiLights
                             var accessToken = context.Request.Query["access_token"];
                             var path = context.HttpContext.Request.Path;
                             if (!string.IsNullOrEmpty(accessToken) &&
-                            (path.StartsWithSegments("/api/lighthouse/hub")))
+                            (path.StartsWithSegments("/api")))
                             {
                                 context.Token = accessToken;
                             }

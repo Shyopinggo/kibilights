@@ -29,4 +29,24 @@ class Localizer {
         else if (lan === 'et') return 'Tuhi parol';
         else return 'Email and password can not be empty!';
     }
+    static main = (lan) => {
+        if (lan === 'ru') return 'Главная';
+        else if (lan === 'et') return 'Main';
+        else return 'Main';
+    }
+    static favorites = (lan) => {
+        if (lan === 'ru') return 'Избранное';
+        else if (lan === 'et') return 'Lemmik';
+        else return 'Favorites';
+    }
+    static settings = (lan) => {
+        if (lan === 'ru') return 'Настройки';
+        else if (lan === 'et') return 'Settings';
+        else return 'Settings';
+    }
+    static search = (lan) => {
+        if (lan === 'ru') return 'Искать';
+        else if (lan === 'et') return 'Otsi';
+        else return 'Search';
+    }
 }

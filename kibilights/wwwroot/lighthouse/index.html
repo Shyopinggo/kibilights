@@ -38,6 +38,7 @@
             lan = window.navigator.language.slice(0, 2);
             window.localStorage.setItem('language', lan);
         }
+        $('html').attr('lang', lan);
         $('#hLogin').html(Localizer.login(lan));
         $('#lEmail').html(Localizer.email(lan));
         $('#lPassword').html(Localizer.password(lan));

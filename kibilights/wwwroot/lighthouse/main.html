@@ -11,11 +11,51 @@
     <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="style.css" />
     <script src="localizer.js"></script>
+    <script src="settings.js"></script>
 </head>
 <body>
     <div class="container">
-        <h2>Main</h2>
+
+        <form >
+            <div class="form-group">
+                <input type="text" class="form-control-plaintext bg-secondary border" placeholder="Search" id="iSearch" />
+            </div>
+        </form>
+
+        <ul class="list-group" id="lgContent"></ul>
+
+        <ul class="list-group list-group-horizontal d-flex justify-content-around fixed-bottom mx-auto">
+            <li class="list-group-item btn w-100 border" id="bMain">Main</li>
+            <li class="list-group-item btn w-100 border" id="bFavorites">Favorites</li>
+            <li class="list-group-item btn w-100 border" id="bSettings">Settings</li>
+        </ul>
     </div>
+
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let accessToken = window.localStorage.getItem('access_token');
+        if (!accessToken) document.location = 'index.html';
+
+        let lang = window.localStorage.getItem('language');
+        if (!lang) lang = 'en';
+        $('html').attr('lang', lang);
+
+        $('#bMain').html(Localizer.main(lang));
+        $('#bFavorites').html(Localizer.favorites(lang));
+        $('#bSettings').html(Localizer.settings(lang));
+        $('#iSearch').attr('placeholder', Localizer.search(lang));
+
+        $.getJSON(apiHost + '/api/lighthouse/getfacilities?access_token=' + accessToken, (data, status) => {
+            if (status === 'success') {
+                let content = '';
+                data.forEach(d => content += '<li class="list-group-item">' + d.name + '</li>');
+                $('#lgContent').html(content);
+            }
+        })
+            .catch(error => $('#lgContent').html('<li class="list-group-item">' + error.status + '. ' + Localizer.connectionError(lang) + '</li>'));
+    </script>
 
     <script>
         if ('serviceWorker' in navigator) {
@@ -32,7 +72,5 @@
             console.log('service worker is not supported');
         }
     </script>
-    <script src="/lib/jquery/dist/jquery.min.js"></script>
-    <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
