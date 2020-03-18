@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <link rel="manifest" href="/lighthouse/manifest.json">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lighthouse</title>
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script src="localizer.js"></script>
+    <script src="settings.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h2 id="hSettings">Settings</h2>
+        <p><span id="sUserName"></span><button class="btn btn-primary" id="bLogout">Logout</button></p>
+        <form>
+            <div class="form-group">
+                <label for="country" id="lCountry">Country:</label>
+                <select class="form-control-plaintext bg-secondary border" id="country"></select>
+            </div>
+            <div class="form-group">
+                <label for="city" id="lCity">City:</label>
+                <select class="form-control-plaintext bg-secondary border" id="city"></select>
+            </div>
+            <div class="form-group">
+                <label for="language" id="lLanguage">Language:</label>
+                <select class="form-control-plaintext bg-secondary border" id="language">
+                    <option value="en">English</option>
+                    <option value="et">Eesti</option>
+                    <option value="ru">Русский</option>
+                </select>
+            </div>
+            <button class="btn btn-primary form-control" id="bSave">Save</button>
+        </form>
+    </div>
+
+    <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let countries = [];
+        let cities = [];
+
+        $.getJSON('/api/lighthouse/getcountries?access_token=' + accessToken, function (data, status) {
+            if (status === 'success') {
+                countries = data;
+                $.getJSON('/api/lighthouse/getcities?access_token=' + accessToken, function (data, status) {
+                    if (status === 'success') {
+                        cities = data;
+                        mapCities();
+                    }
+                })
+                    .catch(error => alert(error.status + ' ' + Localizer.connectionError(lang)));
+            }
+        })
+            .catch(error => alert(error.status + ' ' + Localizer.connectionError(lang)));
+
+        function mapCities(loaded) {
+            if (!loaded) {
+                let content = '';
+                countries.forEach(c => content += '<option value="' + c.id + '">' + c.name + '</option>');
+                $('#country').html(content);
+                let countryId = window.localStorage.getItem('current_country_id');
+                if (countryId) $('#country').val(countryId);
+            }
+            let countryId = $('#country').val();
+            let content = '';
+            cities.forEach(c => {
+                if (c.countryId == countryId) content += '<option value="' + c.id + '">' + c.name + '</option>';
+            });
+            $('#city').html(content);
+            let cityId = window.localStorage.getItem('current_city_id');
+                if (cityId && !loaded) $('#city').val(cityId);
+        }
+
+        $('#country').change(() => mapCities(true));
+
+        $('#bSave').click(() => {
+            event.preventDefault();
+            let cityId = $('#city').val();
+            let countryId = $('#country').val();
+            window.localStorage.setItem('current_city_id', cityId);
+            window.localStorage.setItem('current_country_id', countryId);
+            document.location = 'main.html';
+        });
+
+        function draw() {
+            $('#hSettings').html(Localizer.settings(lang));
+        $('#sUserName').html(userName);
+        $('#bLogout').html(Localizer.logout(lang));
+        $('#lCountry').html(Localizer.country(lang));
+        $('#lCity').html(Localizer.city(lang));
+        $('#lLanguage').html(Localizer.language(lang));
+        $('#bSave').html(Localizer.save(lang));
+        };
+
+        draw();
+        if (window.localStorage.getItem('language')) $('#language').val(window.localStorage.getItem('language'));
+
+        $('#bLogout').click(() => {
+            window.localStorage.removeItem('access_token');
+            window.localStorage.removeItem('user_name');
+            document.location = 'index.html';
+        });
+
+        $('#language').change(() => {
+            lang = event.target.value;
+            $('html').attr('lang', lang);
+            window.localStorage.setItem('language', lang);
+            draw();
+        });
+    </script>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.register('/lighthouse/service-worker.js').then(function (registration) {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                }, function (err) {
+                    console.log('ServiceWorker registration failed: ', err);
+                }).catch(function (err) {
+                    console.log(err)
+                });
+            });
+        } else {
+            console.log('service worker is not supported');
+        }
+    </script>
+</body>
+</html>

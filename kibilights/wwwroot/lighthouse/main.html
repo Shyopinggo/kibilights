@@ -10,6 +10,7 @@
     <title>Lighthouse</title>
     <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="style.css" />
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
     <script src="localizer.js"></script>
     <script src="settings.js"></script>
 </head>
@@ -31,23 +32,18 @@
         </ul>
     </div>
 
-    <script src="/lib/jquery/dist/jquery.min.js"></script>
     <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        let accessToken = window.localStorage.getItem('access_token');
-        if (!accessToken) document.location = 'index.html';
-
-        let lang = window.localStorage.getItem('language');
-        if (!lang) lang = 'en';
-        $('html').attr('lang', lang);
+        let currentCity = window.localStorage.getItem('current_city_id');
+        if (!currentCity) document.location = 'settings.html';
 
         $('#bMain').html(Localizer.main(lang));
         $('#bFavorites').html(Localizer.favorites(lang));
         $('#bSettings').html(Localizer.settings(lang));
         $('#iSearch').attr('placeholder', Localizer.search(lang));
 
-        $.getJSON(apiHost + '/api/lighthouse/getfacilities?access_token=' + accessToken, (data, status) => {
+        $.getJSON('/api/lighthouse/getfacilities?access_token=' + accessToken, function(data, status) {
             if (status === 'success') {
                 let content = '';
                 data.forEach(d => content += '<li class="list-group-item">' + d.name + '</li>');
@@ -55,6 +51,8 @@
             }
         })
             .catch(error => $('#lgContent').html('<li class="list-group-item">' + error.status + '. ' + Localizer.connectionError(lang) + '</li>'));
+
+        $('#bSettings').click(() => document.location = 'settings.html');
     </script>
 
     <script>

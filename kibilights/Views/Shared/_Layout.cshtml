@@ -17,6 +17,9 @@
                         <a class="navbar-brand" asp-controller="Home" asp-action="Index" asp-area="">Kibilights</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="~/lighthouse/index.html">Lighthouse</a>
+                    </li>
+                    <li class="nav-item">
                         @if (User.Identity.IsAuthenticated)
                         {
                             <a class="nav-link" asp-controller="Account" asp-action="Logout" asp-area="">@localizer["Logout"]</a>

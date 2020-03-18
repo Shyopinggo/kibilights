@@ -44,7 +44,7 @@
       <publishTime>01/24/2020 22:47:12</publishTime>
     </File>
     <File Include="en/KibiLights.resources.dll">
-      <publishTime>03/13/2020 14:52:16</publishTime>
+      <publishTime>03/18/2020 14:14:11</publishTime>
     </File>
     <File Include="es/Microsoft.CodeAnalysis.CSharp.resources.dll">
       <publishTime>09/12/2019 17:09:00</publishTime>
@@ -59,7 +59,7 @@
       <publishTime>09/12/2019 17:08:36</publishTime>
     </File>
     <File Include="et/KibiLights.resources.dll">
-      <publishTime>03/13/2020 14:52:16</publishTime>
+      <publishTime>03/18/2020 14:14:11</publishTime>
     </File>
     <File Include="fr/Microsoft.CodeAnalysis.CSharp.resources.dll">
       <publishTime>09/12/2019 17:09:00</publishTime>
@@ -98,25 +98,25 @@
       <publishTime>09/12/2019 17:08:36</publishTime>
     </File>
     <File Include="KibiLights.deps.json">
-      <publishTime>03/13/2020 14:52:22</publishTime>
+      <publishTime>03/18/2020 14:14:15</publishTime>
     </File>
     <File Include="KibiLights.dll">
-      <publishTime>03/13/2020 14:52:16</publishTime>
+      <publishTime>03/18/2020 14:14:10</publishTime>
     </File>
     <File Include="KibiLights.exe">
-      <publishTime>03/13/2020 14:52:16</publishTime>
+      <publishTime>03/18/2020 14:14:10</publishTime>
     </File>
     <File Include="KibiLights.pdb">
-      <publishTime>03/13/2020 14:52:16</publishTime>
+      <publishTime>03/18/2020 14:14:10</publishTime>
     </File>
     <File Include="KibiLights.runtimeconfig.json">
       <publishTime>03/04/2020 15:28:14</publishTime>
     </File>
     <File Include="KibiLights.Views.dll">
-      <publishTime>03/13/2020 14:52:19</publishTime>
+      <publishTime>03/18/2020 14:14:14</publishTime>
     </File>
     <File Include="KibiLights.Views.pdb">
-      <publishTime>03/13/2020 14:52:19</publishTime>
+      <publishTime>03/18/2020 14:14:14</publishTime>
     </File>
     <File Include="ko/Microsoft.CodeAnalysis.CSharp.resources.dll">
       <publishTime>09/12/2019 17:09:00</publishTime>
@@ -275,7 +275,7 @@
       <publishTime>09/12/2019 17:08:36</publishTime>
     </File>
     <File Include="ru/KibiLights.resources.dll">
-      <publishTime>03/13/2020 14:52:17</publishTime>
+      <publishTime>03/18/2020 14:14:11</publishTime>
     </File>
     <File Include="ru/Microsoft.CodeAnalysis.CSharp.resources.dll">
       <publishTime>09/12/2019 17:09:00</publishTime>
@@ -320,7 +320,7 @@
       <publishTime>09/12/2019 17:08:36</publishTime>
     </File>
     <File Include="web.config">
-      <publishTime>03/13/2020 14:52:22</publishTime>
+      <publishTime>03/18/2020 14:14:15</publishTime>
     </File>
     <File Include="wwwroot/css/site.css">
       <publishTime>03/11/2020 14:59:13</publishTime>
@@ -434,22 +434,28 @@
       <publishTime>01/15/2020 17:58:21</publishTime>
     </File>
     <File Include="wwwroot/lighthouse/index.html">
-      <publishTime>03/13/2020 14:50:39</publishTime>
+      <publishTime>03/18/2020 14:12:25</publishTime>
     </File>
     <File Include="wwwroot/lighthouse/localizer.js">
-      <publishTime>03/13/2020 13:49:22</publishTime>
+      <publishTime>03/18/2020 10:36:43</publishTime>
     </File>
     <File Include="wwwroot/lighthouse/main.html">
-      <publishTime>03/13/2020 14:50:39</publishTime>
+      <publishTime>03/18/2020 12:57:23</publishTime>
     </File>
     <File Include="wwwroot/lighthouse/manifest.json">
-      <publishTime>03/12/2020 15:15:38</publishTime>
+      <publishTime>03/18/2020 10:58:34</publishTime>
     </File>
     <File Include="wwwroot/lighthouse/service-worker.js">
       <publishTime>01/24/2020 12:25:13</publishTime>
     </File>
+    <File Include="wwwroot/lighthouse/settings.html">
+      <publishTime>03/18/2020 14:06:33</publishTime>
+    </File>
+    <File Include="wwwroot/lighthouse/settings.js">
+      <publishTime>03/17/2020 14:19:07</publishTime>
+    </File>
     <File Include="wwwroot/lighthouse/style.css">
-      <publishTime>03/12/2020 15:32:19</publishTime>
+      <publishTime>03/17/2020 10:35:08</publishTime>
     </File>
     <File Include="zh-Hans/Microsoft.CodeAnalysis.CSharp.resources.dll">
       <publishTime>09/12/2019 17:09:00</publishTime>
