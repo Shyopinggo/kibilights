@@ -73,11 +73,11 @@ namespace KibiLights.Areas.Admin.Controllers
             return View();
         }
 
-        public IActionResult AddBeacon(string name, int facilityId)
+        public IActionResult AddBeacon(string name, int facilityId, string description)
         {
             var facility = context.Facilities.FirstOrDefault(f => f.Id == facilityId);
             if (string.IsNullOrEmpty(name) || facility == null) return BadRequest("Empty name or wrong facility id");
-            var beacon = new Beacon { Name = name, Facility = facility};
+            var beacon = new Beacon { Name = name, Facility = facility, Description = description};
             context.Beacons.Add(beacon);
             context.SaveChanges();
             return RedirectToAction("Facility", new { id = facilityId});
