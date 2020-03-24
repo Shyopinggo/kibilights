@@ -17,7 +17,7 @@
 <body>
     <div class="container">
 
-        <form >
+        <form id="fSearch">
             <div class="form-group">
                 <input type="text" class="form-control-plaintext bg-secondary border" placeholder="Search" id="iSearch" />
             </div>
@@ -37,6 +37,9 @@
     <script>
         let currentCity = window.localStorage.getItem('current_city_id');
         if (!currentCity) document.location = 'settings.html';
+        let facilities = [];
+        let favorites = JSON.parse(window.localStorage.getItem('favorites'));
+        if (!favorites) favorites = [];
 
         $('#bMain').html(Localizer.main(lang));
         $('#bFavorites').html(Localizer.favorites(lang));
@@ -45,14 +48,67 @@
 
         $.getJSON('/api/lighthouse/getfacilities?access_token=' + accessToken, function(data, status) {
             if (status === 'success') {
-                let content = '';
-                data.forEach(d => content += '<li class="list-group-item">' + d.name + '</li>');
-                $('#lgContent').html(content);
+                data.forEach(d => {
+                    if (d.cityId == currentCity) facilities.push(d);
+                    drawFacilities();
+                });
             }
         })
             .catch(error => $('#lgContent').html('<li class="list-group-item">' + error.status + '. ' + Localizer.connectionError(lang) + '</li>'));
 
+        function drawFacilities(search) {
+            let data = [];
+            if (search) {
+                facilities.forEach(f => {
+                    if (f.name.includes(search)) data.push(f);
+                });
+            }
+            else data = facilities;
+            let content = '';
+            data.forEach(f => {
+                let isInFavorites = false;
+                favorites.forEach(x => {
+                    if (x.id == f.id) isInFavorites = true;
+                });
+                if (isInFavorites) content += '<li class="list-group-item d-flex justify-content-between"><span class="clickable" onclick="openFacility(\'' + f.id + '\')">' + f.name + '</span><span class="clickable badge badge-pill badge-danger" role="button" aria-label="' + Localizer.deleteFromFavorites(lang) + '" onclick="deleteFromFavorites(\'' + f.id + '\')"><b>-</b></span></li>';
+                    else content += '<li class="list-group-item d-flex justify-content-between"><span class="clickable" onclick="openFacility(\''+f.id+'\')">' + f.name + '</span><span class="clickable badge badge-pill badge-primary" role="button" aria-label="' + Localizer.addToFavorites(lang) + '" onclick="addToFavorites(\''+f.id+'\')"><b>+</b></span></li>';
+            });
+            $('#lgContent').html(content);
+        };
+
+        function drawFavorites() {
+            let content = '';
+            favorites.forEach(f => {
+                content += '<li class="list-group-item d-flex justify-content-between"><span class="clickable" onclick="openFacility(\'' + f.id + '\')">' + f.name + '</span><span class="clickable badge badge-pill badge-danger" role="button" aria-label="' + Localizer.deleteFromFavorites(lang) + '" onclick="deleteFromFavorites(\'' + f.id + '\', 1)"><b>-</b></span></li>';
+            });
+            $('#lgContent').html(content);
+        };
+
+        function addToFavorites(id) {
+            facilities.forEach(f => {
+                if (f.id == id) favorites.push(f);
+            });
+            window.localStorage.setItem('favorites', JSON.stringify(favorites));
+            drawFacilities();
+        };
+
+        function deleteFromFavorites(id, favoritesView) {
+            favorites = favorites.filter(f => {
+                if (f.id == id) return false;
+                else return true;
+            });
+            window.localStorage.setItem('favorites', JSON.stringify(favorites));
+            if (favoritesView) drawFavorites();
+            else drawFacilities();
+        };
+
+        $('#bMain').click(() => drawFacilities());
+        $('#bFavorites').click(() => drawFavorites());
         $('#bSettings').click(() => document.location = 'settings.html');
+        $('#iSearch').on('input', () => {
+            drawFacilities(event.target.value);
+        });
+        $('#fSearch').submit(() => event.preventDefault());
     </script>
 
     <script>

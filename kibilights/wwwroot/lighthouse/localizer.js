@@ -74,4 +74,14 @@ class Localizer {
         else if (lan === 'et') return 'Save';
         else return 'Save';
     }
+    static addToFavorites(lan) {
+        if (lan === 'ru') return 'В избранное';
+        else if (lan === 'et') return 'Lemmik';
+        else return 'Add to favorites';
+    }
+    static deleteFromFavorites(lan) {
+        if (lan === 'ru') return 'Удалить из избранного';
+        else if (lan === 'et') return 'Lemmik valja';
+        else return 'Delete from favorites';
+    }
 }

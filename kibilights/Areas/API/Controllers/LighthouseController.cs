@@ -15,7 +15,7 @@ using KibiLights.Areas.API.Hubs;
 namespace KibiLights.Areas.API.Controllers
 {
     [Area("API")]
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class LighthouseController : Controller
     {
         private IHubContext<LighthouseHub> hubContext;

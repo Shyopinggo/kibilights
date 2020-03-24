@@ -1,3 +1,7 @@
 ﻿.container, .fixed-bottom {
     max-width: 720px;
 }
+
+.clickable {
+    cursor: pointer;
+}
