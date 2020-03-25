@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <link rel="manifest" href="/lighthouse/manifest.json">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lighthouse</title>
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script src="localizer.js"></script>
+    <script src="settings.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="d-flex justify-content-between">
+            <a id="aBack" href="main.html">Back</a>
+            <h3 id="hFacilityName"></h3>
+            <a id="aRoutes" href="#">Routes</a>
+        </div>
+        <ul class="list-group" id="lgContent"></ul>
+
+    </div>
+
+    <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let facility = JSON.parse(window.localStorage.getItem('current_facility'));
+        if (!facility) document.location = 'main.html';
+        $('#hFacilityName').html(facility.name);
+        $('#aBack').html(Localizer.back(lang));
+        $('#aRoutes').html(Localizer.routes(lang));
+
+        let beacons = [];
+        let routes = [];
+        let routeView = false;
+
+        $.getJSON('/api/lighthouse/isconnected?id=' + facility.id + '&access_token=' + accessToken, function (data, status) {
+            if (status === 'success') {
+                if (!data.connected) {
+                    $('#lgContent').html(Localizer.disconnected(lang));
+                }
+                else {
+                    $.getJSON('/api/lighthouse/getbeacons?id=' + facility.id + '&access_token=' + accessToken, function (data, status) {
+                        if (status === 'success') {
+                            beacons = data;
+                            drawBeacons();
+                            $.getJSON('/api/lighthouse/getroutes?id=' + facility.id + '&access_token=' + accessToken, function (data, status) {
+                                if (status === 'success') {
+                                    routes = data;
+                                }
+                            }).catch(error => $('#lgContent').html('<li>' + error.status + ' ' + Localizer.connectionError(lang) + '</li>'));
+                        }
+                    })
+                        .catch(error => $('#lgContent').html('<li>' + error.status + ' ' + Localizer.connectionError(lang) + '</li>'));
+                }
+            }
+        }).catch(error => {
+            $('#lgContent').html('<li>' + error.status + ' ' + Localizer.connectionError(lang) + '</li>');
+        });
+
+        function drawBeacons() {
+            let content = '';
+            beacons.forEach(b => {
+                let description = parseMultiLangContent(b.description);
+                if (description == null || description === '') description = Localizer.noDescription(lang);
+                content += '<li class="list-group-item"><div class="d-flex justify-content-between"><span class="clickable" onclick="toggleVisibility(' + b.id + ')">' + b.name + '</span><button class="btn btn-sm btn-primary" onclick="call(' + b.id + ')">' + Localizer.call(lang) + '</button></div>';
+                content += '<p class="d-none" id="' + b.id + '" onclick="toggleVisibility(' + b.id + ')">' + description + '</p>';
+                content += '</li>';
+            });
+            $('#lgContent').html(content);
+        }
+
+        $('#aRoutes').click(() => {
+            event.preventDefault();
+            routeView = !routeView;
+            if (routeView) {
+                $('#aRoutes').html(Localizer.beacons(lang));
+                drawRoutes();
+            }
+            else {
+                $('#aRoutes').html(Localizer.routes(lang));
+                drawBeacons();
+            }
+        });
+
+        function drawRoutes() {
+            let content = '';
+            routes.forEach(r => {
+                let description = parseMultiLangContent(r.content);
+                if (description == null || description === '') description = Localizer.noDescription(lang);
+                content += '<li class="clickable list-group-item" onclick="toggleVisibility(' + r.id + ')"><p>' + r.name + '</p>';
+                content += '<p class="d-none" id="' + r.id + '">' + description + '</p>';
+                content += '</li>';
+            });
+            $('#lgContent').html(content);
+        }
+
+        function toggleVisibility(id) {
+            $('#' + id).toggleClass('d-none');
+        }
+
+        function call(id) {
+            fetch('/api/lighthouse/call?facilityId=' + facility.id + '&id=' + id + '&access_token=' + accessToken);
+        }
+    </script>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.register('/lighthouse/service-worker.js').then(function (registration) {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                }, function (err) {
+                    console.log('ServiceWorker registration failed: ', err);
+                }).catch(function (err) {
+                    console.log(err)
+                });
+            });
+        } else {
+            console.log('service worker is not supported');
+        }
+    </script>
+</body>
+</html>

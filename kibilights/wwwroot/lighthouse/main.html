@@ -102,6 +102,16 @@
             else drawFacilities();
         };
 
+        function openFacility(id) {
+            facilities.forEach((f) => {
+                if (f.id == id) {
+                    window.localStorage.setItem('current_facility', JSON.stringify(f));
+                    document.location = 'facility.html';
+                    return;
+                }
+            });
+        }
+
         $('#bMain').click(() => drawFacilities());
         $('#bFavorites').click(() => drawFavorites());
         $('#bSettings').click(() => document.location = 'settings.html');

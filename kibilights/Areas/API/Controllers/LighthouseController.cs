@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 
@@ -15,7 +16,7 @@ using KibiLights.Areas.API.Hubs;
 namespace KibiLights.Areas.API.Controllers
 {
     [Area("API")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme + ", " + CookieAuthenticationDefaults.AuthenticationScheme )]
     public class LighthouseController : Controller
     {
         private IHubContext<LighthouseHub> hubContext;
@@ -30,9 +31,11 @@ namespace KibiLights.Areas.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Call(string name, int id)
+        public async Task<IActionResult> Call(int facilityId, int id)
         {
-            await hubContext.Clients.User(name).SendAsync("Call", id);
+            var facility = dbContext.Facilities.Include(f => f.User).FirstOrDefault(f => f.Id == facilityId);
+            if (facility == null) return BadRequest($"Facility {facilityId} not found.");
+            await hubContext.Clients.User(facility.User.Email).SendAsync("Call", id);
             return Ok();
         }
         
@@ -56,13 +59,14 @@ namespace KibiLights.Areas.API.Controllers
         }
 
         [HttpGet]
-        public IActionResult IsConnected(string name)
+        public IActionResult IsConnected(int id)
         {
-            if (string.IsNullOrEmpty(name)) return BadRequest("Name is empty.");
+            var facility = dbContext.Facilities.Include(f => f.User).FirstOrDefault(f => f.Id == id);
+            if (facility == null) return BadRequest($"Facility {id} not found.");
             var result = new
             {
-                Name = name,
-                Connected = connectedFacilities.IsConnected(name)
+                Id = id,
+                Connected = connectedFacilities.IsConnected(facility.User.Email)
         };
             return Json(result);
         }

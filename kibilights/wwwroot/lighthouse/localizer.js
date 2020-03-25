@@ -84,4 +84,34 @@ class Localizer {
         else if (lan === 'et') return 'Lemmik valja';
         else return 'Delete from favorites';
     }
+    static back(lan) {
+        if (lan === 'ru') return 'Назад';
+        else if (lan === 'et') return 'Tagasi';
+        else return 'Back';
+    }
+    static routes(lan) {
+        if (lan === 'ru') return 'Маршруты';
+        else if (lan === 'et') return 'Teed';
+        else return 'Routes';
+    }
+    static beacons(lan) {
+        if (lan === 'ru') return 'Маяки';
+        else if (lan === 'et') return 'Tuletornid';
+        else return 'Beacons';
+    }
+    static disconnected(lan) {
+        if (lan === 'ru') return 'К сожалению, с этим учреждением в данный момент отсутствует связь. Попробуйте позже.';
+        else if (lan === 'et') return 'Ei ole side';
+        else return 'Unfortunately this facility is currently disconnected. Try later.';
+    }
+    static call(lan) {
+        if (lan === 'ru') return 'Вызов';
+        else if (lan === 'et') return 'Heli';
+        else return 'Call';
+    }
+    static noDescription(lan) {
+        if (lan === 'ru') return 'Нет описания';
+        else if (lan === 'et') return 'Ei ole kirjaldust';
+        else return 'No description.';
+    }
 }
