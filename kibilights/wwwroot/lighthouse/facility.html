@@ -67,7 +67,8 @@
             beacons.forEach(b => {
                 let description = parseMultiLangContent(b.description);
                 if (description == null || description === '') description = Localizer.noDescription(lang);
-                content += '<li class="list-group-item"><div class="d-flex justify-content-between"><span class="clickable" onclick="toggleVisibility(' + b.id + ')">' + b.name + '</span><button class="btn btn-sm btn-primary" onclick="call(' + b.id + ')">' + Localizer.call(lang) + '</button></div>';
+                let name = parseMultiLangContent(b.name);
+                content += '<li class="list-group-item"><div class="d-flex justify-content-between"><span class="clickable" onclick="toggleVisibility(' + b.id + ')">' + name + '</span><button class="btn btn-sm btn-primary" onclick="call(' + b.id + ')">' + Localizer.call(lang) + '</button></div>';
                 content += '<p class="d-none" id="' + b.id + '" onclick="toggleVisibility(' + b.id + ')">' + description + '</p>';
                 content += '</li>';
             });
