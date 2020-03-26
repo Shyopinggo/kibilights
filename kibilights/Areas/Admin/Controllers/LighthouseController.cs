@@ -116,6 +116,8 @@ namespace KibiLights.Areas.Admin.Controllers
         {
             var route = context.Routes.FirstOrDefault(r => r.Id == id);
             if (route == null) return BadRequest("Wrong route id");
+            ViewData["RouteSteps"] = context.RouteSteps.Where(rs => rs.RouteId == id).ToList();
+            ViewData["Beacons"] = context.Beacons.Where(b => b.FacilityId == route.FacilityId).ToList();
             return View(route);
         }
 
@@ -127,6 +129,30 @@ namespace KibiLights.Areas.Admin.Controllers
             context.Routes.Update(route);
             context.SaveChanges();
             return RedirectToAction("Facility", new { id = route.FacilityId});
+        }
+
+        [HttpGet]
+        public IActionResult AddRouteStep(int routeId, int beaconId, int step)
+        {
+            var routeStep = new RouteStep
+            {
+                RouteId = routeId,
+                BeaconId = beaconId,
+                Step = step
+            };
+            context.RouteSteps.Add(routeStep);
+            context.SaveChanges();
+            return RedirectToAction("EditRoute", new { id = routeId});
+        }
+
+        [HttpGet]
+        public IActionResult DeleteRouteStep(int id, int routeId)
+        {
+            var routeStep = context.RouteSteps.FirstOrDefault(rs => rs.Id == id);
+            if (routeStep == null) return BadRequest($"RouteStep {id} not found.");
+            context.RouteSteps.Remove(routeStep);
+            context.SaveChanges();
+            return RedirectToAction("EditRoute", new { id = routeId});
         }
     }
 }

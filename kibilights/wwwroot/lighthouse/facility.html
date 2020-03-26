@@ -21,6 +21,11 @@
             <h3 id="hFacilityName"></h3>
             <a id="aRoutes" href="#">Routes</a>
         </div>
+        <form id="fSearch">
+            <div class="form-group">
+                <input type="text" class="form-control-plaintext bg-secondary border" placeholder="Search" id="iSearch" />
+            </div>
+        </form>
         <ul class="list-group" id="lgContent"></ul>
 
     </div>
@@ -33,6 +38,8 @@
         $('#hFacilityName').html(facility.name);
         $('#aBack').html(Localizer.back(lang));
         $('#aRoutes').html(Localizer.routes(lang));
+        $('#iSearch').attr('placeholder', Localizer.search(lang));
+        $('#fSearch').submit(() => event.preventDefault());
 
         let beacons = [];
         let routes = [];
@@ -62,9 +69,10 @@
             $('#lgContent').html('<li>' + error.status + ' ' + Localizer.connectionError(lang) + '</li>');
         });
 
-        function drawBeacons() {
+        function drawBeacons(data) {
+            if (!data) data = beacons;
             let content = '';
-            beacons.forEach(b => {
+            data.forEach(b => {
                 let description = parseMultiLangContent(b.description);
                 if (description == null || description === '') description = Localizer.noDescription(lang);
                 let name = parseMultiLangContent(b.name);
@@ -80,10 +88,12 @@
             routeView = !routeView;
             if (routeView) {
                 $('#aRoutes').html(Localizer.beacons(lang));
+                $('#fSearch').addClass('d-none');
                 drawRoutes();
             }
             else {
                 $('#aRoutes').html(Localizer.routes(lang));
+                $('#fSearch').removeClass('d-none');
                 drawBeacons();
             }
         });
@@ -93,11 +103,29 @@
             routes.forEach(r => {
                 let description = parseMultiLangContent(r.content);
                 if (description == null || description === '') description = Localizer.noDescription(lang);
-                content += '<li class="clickable list-group-item" onclick="toggleVisibility(' + r.id + ')"><p>' + r.name + '</p>';
-                content += '<p class="d-none" id="' + r.id + '">' + description + '</p>';
+                content += '<li class="clickable list-group-item"><p onclick="toggleVisibility(' + r.id + ')">' + r.name + '</p>';
+                content += '<p class="d-none" id="' + r.id + '" onclick="toggleVisibility(' + r.id + ')">' + description + '</p>';
+                content += '<button class="btn btn-primary form-control" onclick="drawRouteBeacons(' + r.id + ')">' + Localizer.beacons(lang) + '</button>';
                 content += '</li>';
             });
             $('#lgContent').html(content);
+        }
+
+        function drawRouteBeacons(id) {
+            $.getJSON('/api/lighthouse/getroutesteps?id=' + id + '&access_token=' + accessToken, function (data, status) {
+                if (status === 'success') {
+                    data.sort((a, b) => a.step - b.step);
+                    let content = [];
+                    data.forEach(d => {
+                        beacons.forEach(b => {
+                            if (d.beaconId == b.id) content.push(b);
+                        });
+                    });
+                    drawBeacons(content);
+                    let button = '<li class="list-group-item"><button class="btn btn-primary form-control" onclick="drawRoutes()">' + Localizer.routes(lang) + '</button></li>';
+                    $('#lgContent').append(button);
+                }
+            }).catch(error => console.log(error));
         }
 
         function toggleVisibility(id) {
@@ -107,6 +135,15 @@
         function call(id) {
             fetch('/api/lighthouse/call?facilityId=' + facility.id + '&id=' + id + '&access_token=' + accessToken);
         }
+
+        $('#iSearch').on('input', () => {
+            let text = event.target.value;
+            let data = [];
+            beacons.forEach(b => {
+                if (b.name.includes(text)) data.push(b);
+            });
+            drawBeacons(data);
+        });
     </script>
 
     <script>

@@ -3,14 +3,16 @@ using System;
 using KibiLights.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace KibiLights.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20200325130235_AddRouteSteps")]
+    partial class AddRouteSteps
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -135,8 +137,6 @@ namespace KibiLights.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RouteId");
-
                     b.ToTable("RouteSteps");
                 });
 
@@ -208,15 +208,6 @@ namespace KibiLights.Migrations
                     b.HasOne("KibiLights.Models.Lighthouse.Facility", "Facility")
                         .WithMany("Routes")
                         .HasForeignKey("FacilityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("KibiLights.Models.Lighthouse.RouteStep", b =>
-                {
-                    b.HasOne("KibiLights.Models.Lighthouse.Route", "Route")
-                        .WithMany()
-                        .HasForeignKey("RouteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

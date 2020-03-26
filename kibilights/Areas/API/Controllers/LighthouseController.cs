@@ -82,5 +82,11 @@ namespace KibiLights.Areas.API.Controllers
         {
             return Json(dbContext.Routes.Where(r => r.FacilityId == id).ToList());
         }
+
+        [HttpGet]
+        public JsonResult GetRouteSteps(int id)
+        {
+            return Json(dbContext.RouteSteps.Where(rs => rs.RouteId == id).ToList());
+        }
     }
 }

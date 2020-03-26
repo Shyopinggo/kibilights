@@ -17,6 +17,7 @@ namespace KibiLights.Models
         public DbSet<Facility> Facilities { get; set; }
         public DbSet<Beacon> Beacons { get; set; }
         public DbSet<Route> Routes { get; set; }
+        public DbSet<RouteStep> RouteSteps { get; set; }
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {

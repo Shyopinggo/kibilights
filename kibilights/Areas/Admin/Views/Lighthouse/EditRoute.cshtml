@@ -2,6 +2,8 @@
 @{
     ViewData["Title"] = "Edit Route";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var routeSteps = (List<KibiLights.Models.Lighthouse.RouteStep>)ViewData["RouteSteps"];
+    var beacons = (List<KibiLights.Models.Lighthouse.Beacon>)ViewData["Beacons"];
 }
 
 <h1>Edit Route</h1>
@@ -19,4 +21,42 @@
     <textarea class="form-control-plaintext bg-secondary" rows="5" asp-for="Content">@Model.Content</textarea>
     <span asp-validation-for="Content"></span>
     <input class="btn btn-primary" type="submit" value="Save" />
+</form>
+
+<h2>Route Steps</h2>
+<table class="table table-dark table-hover">
+    <tr>
+        <td>Step</td>
+        <td>Beacon</td>
+        <td>Action</td>
+    </tr>
+    @foreach(var rs in routeSteps)
+    {
+        <tr>
+            <td>@rs.Step</td>
+            <td>
+                @{ 
+                    string beaconName = beacons.FirstOrDefault(b => b.Id == rs.BeaconId).Name;
+                }
+                @beaconName
+            </td>
+            <td><a href="~/admin/lighthouse/deleteroutestep?id=@rs.Id&routeId=@Model.Id">Delete</a></td>
+        </tr>
+    }
+</table>
+
+<h3>Add Route Step</h3>
+
+<form class="form-inline my-3" asp-area="Admin" asp-controller="Lighthouse" asp-action="AddRouteStep" method="get">
+    <input type="hidden" name="routeId" value="@Model.Id" />
+    <label for="step">Step: </label>
+    <input class="form-control form-control-plaintext bg-secondary border text-white mx-1" type="number" name="step" />
+    <label for="beaconId">Beacon: </label>
+    <select class="form-control form-control-plaintext bg-secondary border text-white mx-1" name="beaconId">
+        @foreach(var b in beacons)
+        {
+            <option value="@b.Id">@b.Name</option>
+        }
+    </select>
+    <input type="submit" class="btn btn-primary" value="Add" />
 </form>
