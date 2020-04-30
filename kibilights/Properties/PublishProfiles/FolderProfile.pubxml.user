@@ -6,7 +6,7 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>ftp://kibilights.com/</_PublishTargetUrl>
+    <_PublishTargetUrl>D:\cs\kibilights\kibilights\bin\Release\netcoreapp3.1\publish</_PublishTargetUrl>
     <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAFiVp7JN+OUSeaWX8xrLzNgAAAAACAAAAAAAQZgAAAAEAACAAAACBj6NTwJzDwAhFN50MFtUjyH6m4nkh1OLfiLxizRtKuwAAAAAOgAAAAAIAACAAAABQZWqNHAvAxKD51vIDNiDfKELKxvgmSidnKMLcb/7n+yAAAAD5GQ6ZqJEjMjmGmL8by4SNAIWUyQBgqssn8Ac8vVgmX0AAAACvhr/uSethLFl0qZZwXEi8QD3q9PWLJCTEdqjwjjOnC4dg0J3qJvesfMsqNkGjGJbvRep348FVB4IC+7qkb8ON</EncryptedPassword>
   </PropertyGroup>
   <ItemGroup>
