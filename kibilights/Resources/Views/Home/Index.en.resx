@@ -117,8 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Test" xml:space="preserve">
-    <value>&lt;h2&gt;Testing&lt;/h2&gt;</value>
+  <data name="Content" xml:space="preserve">
+    <value>&lt;p&gt;This site is dedicated to a project to create a navigation system for blind and visually impaired people, which helps to navigate inside buildings.&lt;/p&gt;
+&lt;h2&gt;The problem&lt;/h2&gt;
+&lt;p&gt;It is extremely difficult for people with  severe visual impairment to move independently inside buildings, especially in unfamiliar ones, since they cannot use visual landmarks. This system proposes to replace visual landmarks with sound beacons.&lt;/p&gt;
+&lt;h2&gt;For whom?&lt;/h2&gt;
+&lt;p&gt;First of all, the system is designed for blind and visually impaired people. The system allows you to activate the sound beacons installed in the building using the mobile application and without purchasing any additional devices. It is assumed that the beacons are located in most important places of the building: above the entrances and exits, above the elevators, above the doors to the auditoriums, etc.&lt;/p&gt;
+&lt;p&gt;Also, the system will be of interest to goverment and other organizations that want to increase the accessibility of their facilities for different categories of people, including the visually impaired people. The system is designed to be inexpensive and easy to install and maintain.&lt;/p&gt;
+&lt;h2&gt;&lt;/h2&gt;
+&lt;p&gt;To be able to use the system, the network of sound beacons connected to it must be installed in the building you are interested in.&lt;/p&gt;
+&lt;p&gt; To use the mobile app, follow these steps: &lt;/p&gt;
+&lt;ul&gt;
+    &lt;li&gt; Click the Register link at the top of this site. &lt;/li&gt;
+    &lt;li&gt; Fill out the simplest form. Registration is needed to prevent third parties and attackers from using the application. &lt;/li&gt;
+    &lt;li&gt; Open this site on your mobile device and click the "Lighthouse" link at the top of the site. &lt;/li&gt;
+    &lt;li&gt; In the browser, click “Save to Home Screen" to install the application on your device. The location of this button may vary from device to device. &lt;/li&gt;
+    &lt;li&gt; Open the application using its icon on the main screen. &lt;/li&gt;
+    &lt;li&gt; Sign in with your credentials. &lt;/li&gt;
+    &lt;li&gt; Enjoy your use! &lt;/li&gt;
+&lt;/ul&gt;</value>
   </data>
   <data name="Welcome" xml:space="preserve">
     <value>Welcome</value>

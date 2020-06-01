@@ -117,8 +117,31 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Test" xml:space="preserve">
-    <value>&lt;h2&gt;Testing&lt;/h2&gt;</value>
+  <data name="Content" xml:space="preserve">
+    <value>&lt;p&gt; See veebileht on pühendatud projektile, mille eesmärk on luua pimedatele ja vaegnägijatele mõeldud navigatsioonisüsteem, mis aitab hoonetes liikuda. &lt;/p&gt;
+
+&lt;h2&gt; probleem &lt;/h2&gt;
+
+&lt;p&gt; Raske või sügava nägemispuudega inimestel on hoonetes, eriti neile tundmatutes hoonetes, liikuda äärmiselt raske, kuna nad ei saa visuaalseid orientiire kasutada. See süsteem võimaldab asendada visuaalsed orientiirid helimajakatega. &lt;/p&gt;
+
+&lt;h2&gt; kelle jaoks? &lt;/h2&gt;
+
+&lt;p&gt; Esiteks on süsteem mõeldud pimedatele ja nägemispuudega inimestele. Süsteem võimaldab aktiveerida hoonesse paigaldatud helimajakaid mobiilirakenduse abil ja täiendavaid seadmeid ostmata. Eeldatakse, et majakad asuvad hoone kõige olulisemates kohtades: sissepääsude ja väljapääsude kohal, liftide kohal, auditooriumi uste kohal jne. &lt;/p&gt;
+&lt;p&gt; Samuti võib see süsteem huvi pakkuda riiklikele ja teistele organisatsioonidele, kes soovivad suurendada oma hoonete ligipääsetavust erinevatele inimrühmadele, sealhulgas nägemispuudega inimestele. Süsteem on projekteeritud nii, et selle paigaldamine ja haldamine oleks lihtne ja odav. &lt;/p&gt;
+
+&lt;h2&gt; Kuidas kasutada? &lt;/h2&gt;
+
+&lt;p&gt; Süsteemi kasutamiseks peab hoones, mis teid huvitab,  olema paigaldatud sellega ühendatud helimajakate võrk. &lt;/p&gt;
+&lt;p&gt; Mobiilirakenduse kasutamiseks toimige järgmiselt. &lt;/p&gt;
+&lt;ul&gt;
+    &lt;li&gt; Klõpsake selle veebilehe üleval linki Registreeri. &lt;/li&gt;
+    &lt;li&gt; Täitke kõige lihtsam vorm. Registreerimine on vajalik selleks, et takistada kolmandatel osapooltel ja ründajatel rakendust kasutamast. &lt;/li&gt;
+    &lt;li&gt; Avage see leht oma mobiilseadmes ja klõpsake saidi ülaosas linki "Majakas". &lt;/li&gt;
+    &lt;li&gt; Rakenduse oma seadmesse installimiseks klõpsake brauseris nuppu „Salvesta avaekraanile“. Selle nupu asukoht võib seadmetes erineda. &lt;/li&gt;
+    &lt;li&gt; Avage rakendus, kasutades selle põhiekraanil olevat ikooni. &lt;/li&gt;
+    &lt;li&gt; logige sisse. &lt;/li&gt;
+    &lt;li&gt; Nautige kasutamist! &lt;/li&gt;
+&lt;/ul&gt;</value>
   </data>
   <data name="Welcome" xml:space="preserve">
     <value>Tere tulemast</value>
