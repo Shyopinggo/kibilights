@@ -4,3 +4,36 @@
 }
 <h1>@localizer["Welcome"]</h1>
 @localizer["Content"]
+
+@if (System.Globalization.CultureInfo.CurrentCulture.Name == "ru")
+{
+    <h2>Для инвесторов</h2>
+    <p>
+        Проект представляет собой практическую часть дипломной работы по программе "Разработка информационных систем" тартуского университета, Эстония.
+    </p>
+    <p>
+        На данном этапе в проекте реализована программная часть системы. Для продолжения проекта необходимы инженеры, чтобы разработать сами маяки, менеджеры и маркетологи, чтобы развивать проект с точки зрения бизнеса, и инвестиции.
+    </p>
+    <p>
+        Если вы заинтересованы в сотрудничестве, пишите на адрес электронной почты vladimirsuhorukov@gmail.com
+    </p>
+    <p>
+        Дипломную работу с подробным описанием системы можно скачать по <a href="http://files.itstudent.ee/docs/thesis.pdf">этой ссылке</a>.
+    </p>
+}
+else
+{
+    <h2>For Investors</h2>
+    <p>
+        This project is a practical part of Development Of Information Systems program's thesis, Tartu University, Estonia.
+    </p>
+    <p>
+        Currently the project has only software part of the system. Due to continue developing of the project we need engineers for developing beacons, managers and market specialists for developing the project as a business, and investors.
+    </p>
+    <p>
+        If you are interested in collaboration, contact us using this email address vladimirsuhorukov@gmail.com
+    </p>
+    <p>
+        The thesis itself, with detailed description of the system, is available <a href="http://files.itstudent.ee/docs/thesis.pdf">here</a>.
+    </p>
+}
